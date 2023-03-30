@@ -1,18 +1,19 @@
-# import sys
-# print(sys.path)
 from flask import Flask, render_template, url_for, request, session, redirect, flash
-# from flask_sqlalchemy import SQLAlchemy
-# from flask_login import UserMixin
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 # app.config['SECRET_KEY'] = 'thisisasecretkey'
 # db = SQLAlchemy(app)
 
+# with app.app_context():
+#     db.create_all()
+
 # db.init_app(app)
 
 
-database = {'Manager1': 'Manager@123'}
+database = {'Arjun': 'Manager@123', 'Manager2': 'Manager@123'}
 app.secret_key = "hello"
 
 
@@ -38,13 +39,11 @@ def login():
             return render_template('home.html', info='Invalid Password')
         else:
             session["name"] = name
-            flash('Login Successfull.')
             return redirect(url_for("dashboard"))
 
 
 @app.route('/dashboard')
 def dashboard():
-    # name = session.get['name']
     return render_template('check.html', username=session["name"])
 
 
@@ -53,11 +52,6 @@ def logout():
     session.pop("name", None)
     flash('Logged Out Successfull.')
     return redirect(url_for("home"))
-
-
-# @app.route('/check', methods=['POST', 'GET'])
-# def check():
-#     return render_template('check.html')
 
 
 if __name__ == '__main__':
